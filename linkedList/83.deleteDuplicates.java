@@ -3,18 +3,14 @@ class Solution {
         if (head == null) {
             return head;
         }
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode cur = head, prev = dummy, third = null;
-        while (cur.next != null) {
-            if (cur.val == cur.next.val) {
-                prev.next = cur.next;
-                cur = cur.next;
+        ListNode cur = head;
+        while (cur!=null && cur.next!=null) {
+            if (cur.val==cur.next.val) {
+                cur.next = cur.next.next;
             } else {
                 cur = cur.next;
-                prev = prev.next;
             }
         }
-        return dummy.next;
+        return head;
     }
 }
