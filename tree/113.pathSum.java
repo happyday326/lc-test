@@ -13,29 +13,25 @@
  *     }
  * }
  */
-class Test {
+class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
-        List<List<Integer>> pathSum = new ArrayList<>();
-        List<Integer> path = new ArrayList<>();
-        int sum = 0;
-        getPathSum(root, pathSum, path, targetSum, sum);
-        return pathSum;
+        List<List<Integer>> pathList = new ArrayList<List<Integer>>();
+        List<Integer> pathNodes = new ArrayList<Integer>();
+        this.dfs(root, pathList, pathNodes, targetSum);
+        return pathList;
     }
 
-    private void getPathSum(TreeNode root, List<List<Integer>> pathSum, List<Integer> path, int targetSum, int sum) {
-        if (root != null) {
-            path.add(root.val);
-            sum += root.val;
-            if (root.left==null && root.right==null) {
-                if (sum==targetSum) pathSum.add(path);
-            } else if (root.left==null) {
-                getPathSum(root.right, pathSum, path, targetSum, sum);
-            } else if (root.right==null) {
-                getPathSum(root.left, pathSum, path, targetSum, sum);
-            } else {
-                getPathSum(root.left, pathSum, path, targetSum, sum);
-                getPathSum(root.right, pathSum, path, targetSum, sum);
-            }
+    private void dfs(TreeNode root, List<List<Integer>> pathList, List<Integer> pathNodes, int remain) {
+        if (root == null) {
+            return;
         }
+        pathNodes.add(root.val);
+        if (remain==root.val && root.left==null && root.right==null) {
+            pathList.add(new ArrayList<>(pathNodes));
+        } else {
+            this.dfs(root.left, pathList, pathNodes, remain-root.val);
+            this.dfs(root.right, pathList, pathNodes, remain-root.val);
+        }
+        pathNodes.remove(pathNodes.size()-1);
     }
 }
